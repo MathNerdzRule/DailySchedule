@@ -16,23 +16,15 @@
 }
 
 body {
-  @apply bg-slate-50 text-slate-900 transition-colors duration-300;
+  @apply bg-slate-50 text-slate-900 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-50;
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
 
-.dark body {
-  @apply bg-slate-950 text-slate-50;
-}
-
 .glass {
-  @apply bg-white/70 backdrop-blur-md border border-white/50 shadow-lg;
-}
-
-.dark .glass {
-  @apply bg-slate-900/70 border-white/10;
+  @apply bg-white/70 backdrop-blur-md border border-white/50 shadow-lg dark:bg-slate-900/70 dark:border-white/10;
 }
 
 .btn-primary {

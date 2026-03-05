@@ -12,11 +12,14 @@ export const ThemeSwitcher: React.FC = () => {
     const root = window.document.documentElement;
     
     const applyTheme = (t: 'light' | 'dark') => {
-      // Sync UI theme update
+      // Sync UI theme update on the root element
       if (t === 'dark') {
         root.classList.add('dark');
+        // Explicitly set the color scheme as well
+        root.style.colorScheme = 'dark';
       } else {
         root.classList.remove('dark');
+        root.style.colorScheme = 'light';
       }
 
       // Async Native status bar update
@@ -51,13 +54,14 @@ export const ThemeSwitcher: React.FC = () => {
   return (
     <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl gap-1">
       {[
-        { id: 'light', icon: Sun },
-        { id: 'system', icon: Monitor },
-        { id: 'dark', icon: Moon }
+        { id: 'light', icon: Sun, label: 'Light' },
+        { id: 'system', icon: Monitor, label: 'System' },
+        { id: 'dark', icon: Moon, label: 'Dark' }
       ].map((t) => (
         <button
           key={t.id}
           onClick={() => setTheme(t.id as any)}
+          aria-label={t.label}
           className={`p-1.5 rounded-lg transition-all ${
             theme === t.id 
               ? 'bg-white dark:bg-slate-700 text-blue-600 shadow-sm' 
