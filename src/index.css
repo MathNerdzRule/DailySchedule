@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+:root {
+  --bg-color: #f8fafc;
+  --text-color: #0f172a;
+  --primary: #3b82f6;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.5);
+}
+
+.dark {
+  --bg-color: #0f172a;
+  --text-color: #f8fafc;
+  --glass-bg: rgba(15, 23, 42, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 transition-colors duration-300;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dark body {
+  @apply bg-slate-950 text-slate-50;
+}
+
+.glass {
+  @apply bg-white/70 backdrop-blur-md border border-white/50 shadow-lg;
+}
+
+.dark .glass {
+  @apply bg-slate-900/70 border-white/10;
+}
+
+.btn-primary {
+  @apply bg-blue-600 text-white px-4 py-2 rounded-lg font-bold shadow-lg shadow-blue-500/30 active:scale-95 transition-transform;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
