@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Sun, Moon, Monitor } from 'lucide-react';
+import { StatusBar, Style } from '@capacitor/status-bar';
+import { Capacitor } from '@capacitor/core';
 
 export const ThemeSwitcher: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark' | 'system'>(() => {
@@ -8,11 +10,19 @@ export const ThemeSwitcher: React.FC = () => {
 
   useEffect(() => {
     const root = window.document.documentElement;
-    const applyTheme = (t: 'light' | 'dark') => {
+    const applyTheme = async (t: 'light' | 'dark') => {
       if (t === 'dark') {
         root.classList.add('dark');
+        if (Capacitor.isNativePlatform()) {
+          await StatusBar.setStyle({ style: Style.Dark });
+          await StatusBar.setBackgroundColor({ color: '#0f172a' }); // slate-950/900
+        }
       } else {
         root.classList.remove('dark');
+        if (Capacitor.isNativePlatform()) {
+          await StatusBar.setStyle({ style: Style.Light });
+          await StatusBar.setBackgroundColor({ color: '#f8fafc' }); // slate-50
+        }
       }
     };
 
