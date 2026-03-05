@@ -1,6 +1,6 @@
 {
   "appId": "com.dailyschedule.app",
-  "appName": "DailySchedule",
+  "appName": "Daily Schedule",
   "webDir": "dist",
   "server": {
     "androidScheme": "https"
