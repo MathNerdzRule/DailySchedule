@@ -10,28 +10,36 @@ export const ThemeSwitcher: React.FC = () => {
 
   useEffect(() => {
     const root = window.document.documentElement;
-    const applyTheme = async (t: 'light' | 'dark') => {
+    
+    const applyTheme = (t: 'light' | 'dark') => {
+      // Sync UI theme update
       if (t === 'dark') {
         root.classList.add('dark');
-        if (Capacitor.isNativePlatform()) {
-          await StatusBar.setStyle({ style: Style.Dark });
-          await StatusBar.setBackgroundColor({ color: '#0f172a' }); // slate-950/900
-        }
       } else {
         root.classList.remove('dark');
-        if (Capacitor.isNativePlatform()) {
-          await StatusBar.setStyle({ style: Style.Light });
-          await StatusBar.setBackgroundColor({ color: '#f8fafc' }); // slate-50
+      }
+
+      // Async Native status bar update
+      if (Capacitor.isNativePlatform()) {
+        if (t === 'dark') {
+          // Style.Dark means white text/icons on dark background
+          StatusBar.setStyle({ style: Style.Dark }).catch(console.error);
+          StatusBar.setBackgroundColor({ color: '#0f172a' }).catch(console.error);
+        } else {
+          // Style.Light means dark text/icons on light background
+          StatusBar.setStyle({ style: Style.Light }).catch(console.error);
+          StatusBar.setBackgroundColor({ color: '#f8fafc' }).catch(console.error);
         }
       }
     };
 
     if (theme === 'system') {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      applyTheme(systemTheme);
-      
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      const handleChange = (e: MediaQueryListEvent) => applyTheme(e.matches ? 'dark' : 'light');
+      const updateSystemTheme = (isDark: boolean) => applyTheme(isDark ? 'dark' : 'light');
+      
+      updateSystemTheme(mediaQuery.matches);
+      
+      const handleChange = (e: MediaQueryListEvent) => updateSystemTheme(e.matches);
       mediaQuery.addEventListener('change', handleChange);
       return () => mediaQuery.removeEventListener('change', handleChange);
     } else {
